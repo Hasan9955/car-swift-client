@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 
 type FormData = {
@@ -9,6 +11,7 @@ type FormData = {
 
 const Login = () => {
 
+    const [error, setError] = useState('')
     const {
         register,
         formState: { errors },
@@ -19,8 +22,8 @@ const Login = () => {
 
     const handleLogin: SubmitHandler<FormData> = (data) => {
         const { email, password } = data;
-
-        console.log({ email, password }); 
+        setError('adlkj')
+        console.log({ email, password });
     }
 
     return (
@@ -32,7 +35,10 @@ const Login = () => {
                 <div className="bg-base-100 w-full min-w-xl shadow-2xl">
                     <form
                         onSubmit={handleSubmit(handleLogin)}
-                        className="card-body">
+                        className="card-body"> 
+                         {
+                            error && <div><p className="text-red-500 justify-center flex mt-3">Email or password invalid !!!</p></div>
+                        }
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -76,6 +82,9 @@ const Login = () => {
                             <button className="btn bg-gradient text-white">Login</button>
                         </div>
                     </form>
+                    <div className="mx-auto mb-5 pb-5 text-center">
+                        <p >Don't have an account? <Link className="font-extrabold text-blue-600" to='/signUp'>SignUp</Link></p>
+                    </div>
                 </div>
             </div>
         </div>
