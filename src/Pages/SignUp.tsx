@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useSignUpMutation } from "../redux/features/auth/authApi";
 
 
 type FormData = {
@@ -17,7 +18,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('asd')
     const [emailError, setEmailError] = useState('adsf')
-
+    const [signUp] = useSignUpMutation();
     const {
         register,
         formState: { errors },
@@ -26,16 +27,29 @@ const SignUp = () => {
 
 
 
-    const handleSignUp: SubmitHandler<FormData> = (data) => {
+    const handleSignUp: SubmitHandler<FormData> = async (data) => {
         const { email, password, phone, name, address } = data;
 
         setError('')
-        setEmailError('') 
+        setEmailError('')
         navigate('/signUp')
         if (!/^(?=.*[A-Z]).{6,}$/.test(password)) {
             return setError('please provide  at last 6 character')
         }
-        console.log({ email, password, phone, name, address }); 
+        const userData = {
+            email,
+            password,
+            phone,
+            name,
+            address
+        };
+
+        try {
+            const res = await signUp(userData)
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div className="max-w-xl mx-auto p-5">
@@ -105,7 +119,7 @@ const SignUp = () => {
                                     error &&
                                     <ul className="text-red-400 list-disc text-sm font-bold">
                                         <li>Minimum six in length.</li>
-                                        <li>At least one upper case letter.</li> 
+                                        <li>At least one upper case letter.</li>
                                     </ul>
                                 }
                             </label>
@@ -116,7 +130,7 @@ const SignUp = () => {
                                 >
                                     * Password is required
                                 </p>
-                            )} 
+                            )}
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -155,7 +169,7 @@ const SignUp = () => {
                                     * Address number is required
                                 </p>
                             )}
-                        </div> 
+                        </div>
                         <div className="form-control mt-6">
                             <button className="btn bg-gradient text-white">Sign Up</button>
                         </div>
