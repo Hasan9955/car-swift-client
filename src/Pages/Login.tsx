@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForgetPasswordMutation, useLoginMutation } from "../redux/features/auth/authApi";
+import { toast } from "react-toastify";
+import { verifyToken } from "../utils/verifyToken";
+import { useAppDispatch } from "../redux/hook";
+import { setUser, TUser } from "../redux/features/auth/authSlice";
+import Swal from "sweetalert2";
 
 
 type FormData = {
@@ -11,19 +18,65 @@ type FormData = {
 
 const Login = () => {
 
+    const [login] = useLoginMutation();
+    const [forgetPassword] = useForgetPasswordMutation();
     const [error, setError] = useState('')
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const {
         register,
         formState: { errors },
         handleSubmit,
+        watch
     } = useForm<FormData>();
 
 
 
-    const handleLogin: SubmitHandler<FormData> = (data) => {
+    const handleLogin: SubmitHandler<FormData> = async (data) => {
         const { email, password } = data;
-        setError('adlkj')
-        console.log({ email, password });
+
+        const loginData = {
+            email,
+            password
+        }
+        try {
+            const res = await login(loginData).unwrap();
+            const user = verifyToken(res.token) as TUser
+            dispatch(setUser({
+                user,
+                token: res.token
+            }))
+            toast.success('Login successfully!')
+            navigate('/')
+        } catch (error: any) {
+            setError("Password doesn't matched")
+            toast.error(error.data.message || 'Something went wrong')
+        }
+    }
+
+    const handleForgetPassword = async () => {
+        const email = watch("email")
+
+        if (!email) {
+            toast.error("Please enter your email first.");
+            return;
+        }
+
+        try {
+            const res = await forgetPassword({ email }).unwrap();
+            if (res.success) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "An email sent to your inbox.",
+                    text: 'Please check your inbox!',
+                    showConfirmButton: true
+                });
+            }
+        } catch (error: any) {
+            toast.error(error.data.message || "Something went wrong.");
+        }
+
     }
 
     return (
@@ -35,8 +88,8 @@ const Login = () => {
                 <div className="bg-base-100 w-full min-w-xl shadow-2xl">
                     <form
                         onSubmit={handleSubmit(handleLogin)}
-                        className="card-body"> 
-                         {
+                        className="card-body">
+                        {
                             error && <div><p className="text-red-500 justify-center flex mt-3">Email or password invalid !!!</p></div>
                         }
                         <div className="form-control">
@@ -46,6 +99,7 @@ const Login = () => {
                             <input
                                 type="email"
                                 className="input input-bordered"
+                                placeholder="Enter your email"
                                 {...register("email", { required: true })}
                             />
                             {errors.email?.type === "required" && (
@@ -64,6 +118,7 @@ const Login = () => {
                             <input
                                 type="text"
                                 className="input input-bordered"
+                                placeholder="Enter your password"
                                 {...register("password", { required: true })}
                             />
                             {errors.password?.type === "required" && (
@@ -75,11 +130,13 @@ const Login = () => {
                                 </p>
                             )}
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                <button type="button" className="label-text-alt link link-hover" onClick={handleForgetPassword}>
+                                    Forgot password?
+                                </button>
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn bg-gradient text-white">Login</button>
+                            <button type="submit" className="btn bg-gradient text-white">Login</button>
                         </div>
                     </form>
                     <div className="mx-auto mb-5 pb-5 text-center">

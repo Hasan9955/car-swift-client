@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../redux/features/auth/authApi";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../redux/hook";
+import { setUser, TUser } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 
 type FormData = {
@@ -9,6 +14,7 @@ type FormData = {
     email: string;
     password: string;
     phone: string;
+    photo: string[];
     address: string;
 }
 
@@ -16,9 +22,12 @@ type FormData = {
 const SignUp = () => {
 
     const navigate = useNavigate();
-    const [error, setError] = useState('asd')
-    const [emailError, setEmailError] = useState('adsf')
+    const [btnLoading, setBtnLoading] = useState(false);
+    const [error, setError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const dispatch = useAppDispatch();
     const [signUp] = useSignUpMutation();
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=472169b2b544c9c198fdbb1a8eb5245e`
     const {
         register,
         formState: { errors },
@@ -28,7 +37,18 @@ const SignUp = () => {
 
 
     const handleSignUp: SubmitHandler<FormData> = async (data) => {
+        setBtnLoading(true)
         const { email, password, phone, name, address } = data;
+
+         
+        const formData = new FormData();
+        formData.append('image', data.photo[0]);
+        const res = await fetch(image_hosting_api, {
+            method: 'POST',
+            body: formData,
+        })
+        const resData = await res.json();
+        const photo = resData?.data?.display_url 
 
         setError('')
         setEmailError('')
@@ -40,15 +60,31 @@ const SignUp = () => {
             email,
             password,
             phone,
+            photo,
             name,
             address
         };
 
         try {
-            const res = await signUp(userData)
-            console.log(res);
-        } catch (error) {
+            const res = await signUp(userData).unwrap();  
+            const user = verifyToken(res.token) as TUser  
+            dispatch(setUser({
+                user,
+                token: res.token
+            }))
+            setBtnLoading(false)
+            toast.success('Sign up Successfully!!!')
+            navigate("/")
+        } catch (error: any) {
             console.log(error);
+            if(error?.data?.message?.includes('Duplicate value given!')){
+                setEmailError(error)
+                toast.error("This email is already registered!") 
+                setBtnLoading(false)
+                return
+            }
+            setBtnLoading(false)
+            toast.error('An error is going on!')
         }
     }
     return (
@@ -153,6 +189,24 @@ const SignUp = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text">Photo</span>
+                            </label>
+                            <input
+                                type="file"
+                                className="file-input file-input-bordered w-full"
+                                {...register("photo", { required: true })}
+                            />
+                            {errors.phone?.type === "required" && (
+                                <p
+                                    className="text-red-400 font-bold text-center mt-1"
+                                    role="alert"
+                                >
+                                    * Photo is required
+                                </p>
+                            )}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text">Address</span>
                             </label>
                             <input
@@ -171,7 +225,8 @@ const SignUp = () => {
                             )}
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn bg-gradient text-white">Sign Up</button>
+                            {
+                                btnLoading ? <span className="loading loading-bars loading-lg mx-auto"></span> : <button className="btn bg-gradient text-white">Sign Up</button>}
                         </div>
                     </form>
                     <div className="mx-auto mb-5 pb-5 text-center">

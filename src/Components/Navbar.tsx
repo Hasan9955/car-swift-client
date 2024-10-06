@@ -2,14 +2,14 @@ import { Link, NavLink } from 'react-router-dom'
 import logo from '../assets/carswift.png'
 import { toast } from 'react-toastify';
 import { LuLogOut } from "react-icons/lu";
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { logout, selectCurrentUser } from '../redux/features/auth/authSlice';
 
-type TUser = {
-    name: string;
-    photo: string;
-    email: string;
-} | null
+
+
+
 const Navbar = () => {
-
+    
     const links = <>
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/'>Home</NavLink></li>
@@ -20,11 +20,12 @@ const Navbar = () => {
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/about'>About</NavLink></li>
     </>
-    const user: TUser = null;
-
+    const user = useAppSelector(selectCurrentUser);
+    const dispatch = useAppDispatch();
     const handleLogOut = () => {
+        dispatch(logout())
         toast.error('You are logged out!!!')
-    }
+    } 
 
     return (
         <div className="navbar justify-between bg-base-100">
@@ -50,7 +51,8 @@ const Navbar = () => {
 
             <div className="md:navbar-end">
                 {
-                    user ? <div className='flex items-center'>
+                     user ?
+                    <div className='flex items-center'>
                         <p className='font-bold border-2 mr-1 p-2 text-lg hidden md:flex'>{user.name}</p>
                         <div className="dropdown dropdown-hover dropdown-end">
                             <label tabIndex={0} className="md:mx-2 btn btn-sm md:btn-md btn-ghost btn-circle avatar">
@@ -67,7 +69,7 @@ const Navbar = () => {
                                         </div>
                                     </label>
                                     <h2 className='text-lg font-bold'>{user.name}</h2>
-                                    <h2>{user.email}</h2>
+                                    <h2>{user.userEmail}</h2>
                                     {/* <Link to='/dashboard/userProfile'>
                                         <button className="btn lg:btn-sm btn-xs bg-blue-500 hover:bg-blue-500 hover:border-blue-500 text-white mt-2">View Profile</button>
                                     </Link> */}
