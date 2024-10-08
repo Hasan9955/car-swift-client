@@ -9,3 +9,7 @@
 body{
   font-family: 'Libre Baskerville', serif;
 }
+
+.text-white {
+  color: white !important;
+}

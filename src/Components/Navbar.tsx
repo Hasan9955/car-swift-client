@@ -8,13 +8,16 @@ import { logout, selectCurrentUser } from '../redux/features/auth/authSlice';
 
 
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const navStyle = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "bg-gradient text-white" : "";
+
 const Navbar = () => {
-    
+
     const links = <>
+        <li><NavLink className={navStyle} to='/'>Home</NavLink></li>
         <li><NavLink className={({ isActive }) =>
-            isActive ? "bg-gradient text-white" : ""} to='/'>Home</NavLink></li>
-        <li><NavLink className={({ isActive }) =>
-            isActive ? "bg-gradient text-white" : ""} to='/shop'>Shop</NavLink></li>
+            isActive ? "bg-gradient text-white" : ""} to='/cars'>Cars</NavLink></li>
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/cart'>Cart</NavLink></li>
         <li><NavLink className={({ isActive }) =>
@@ -25,7 +28,7 @@ const Navbar = () => {
     const handleLogOut = () => {
         dispatch(logout())
         toast.error('You are logged out!!!')
-    } 
+    }
 
     return (
         <div className="navbar justify-between bg-base-100">
@@ -51,34 +54,34 @@ const Navbar = () => {
 
             <div className="md:navbar-end">
                 {
-                     user ?
-                    <div className='flex items-center'>
-                        <p className='font-bold border-2 mr-1 p-2 text-lg hidden md:flex'>{user.name}</p>
-                        <div className="dropdown dropdown-hover dropdown-end">
-                            <label tabIndex={0} className="md:mx-2 btn btn-sm md:btn-md btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full border-2 border-blue-500">
-                                    <img src={user.photo} alt='userImg' />
-                                </div>
-                            </label>
-                            <ul tabIndex={0} className="dropdown-content z-[10] menu px-5 mt-3 shadow bg-base-100 rounded-box py-5 w-56">
-                                <div className='flex flex-col justify-center items-center mb-4'>
-                                    <label tabIndex={0} className="btn btn-circle avatar">
-                                        <div className="w-16 rounded-full">
-                                            <img src={user.photo} alt='userImg' />
+                    user ?
+                        <div className='flex items-center'>
+                            <p className='font-bold border-2 mr-1 p-2 text-lg hidden md:flex'>{user.name}</p>
+                            <div className="dropdown dropdown-hover dropdown-end">
+                                <label tabIndex={0} className="md:mx-2 btn btn-sm md:btn-md btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full border-2 border-blue-500">
+                                        <img src={user.photo} alt='userImg' />
+                                    </div>
+                                </label>
+                                <ul tabIndex={0} className="dropdown-content z-[10] menu px-5 mt-3 shadow bg-base-100 rounded-box py-5 w-56">
+                                    <div className='flex flex-col justify-center items-center mb-4'>
+                                        <label tabIndex={0} className="btn btn-circle avatar">
+                                            <div className="w-16 rounded-full">
+                                                <Link to='/admin-dashboard/adminProfile'>
+                                                    <img src={user.photo} alt='userImg' />
 
-                                        </div>
-                                    </label>
-                                    <h2 className='text-lg font-bold'>{user.name}</h2>
-                                    <h2>{user.userEmail}</h2>
-                                    {/* <Link to='/dashboard/userProfile'>
-                                        <button className="btn lg:btn-sm btn-xs bg-blue-500 hover:bg-blue-500 hover:border-blue-500 text-white mt-2">View Profile</button>
-                                    </Link> */}
-                                </div>
-                                <li><NavLink to='/productManagement'>Manage Products</NavLink></li>
-                                <li><button className='font-bold text-md text-blue-500' onClick={handleLogOut}>Logout <LuLogOut /></button></li>
-                            </ul>
-                        </div>
-                    </div> : <Link to='/login'><button className="btn bg-gradient text-white md:ml-2">Login</button></Link>
+                                                </Link>
+                                            </div>
+                                        </label>
+                                        <h2 className='text-lg font-bold'>{user.name}</h2>
+                                        <h2>{user.userEmail}</h2>
+
+                                    </div>
+                                    <li><NavLink to='/admin-dashboard/adminProfile'>Dashboard</NavLink></li>
+                                    <li><button className='font-bold text-md text-blue-500' onClick={handleLogOut}>Logout <LuLogOut /></button></li>
+                                </ul>
+                            </div>
+                        </div> : <Link to='/login'><button className="btn bg-gradient text-white md:ml-2">Login</button></Link>
                 }
 
             </div>
