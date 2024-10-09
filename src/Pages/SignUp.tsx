@@ -51,8 +51,7 @@ const SignUp = () => {
         const photo = resData?.data?.display_url 
 
         setError('')
-        setEmailError('')
-        navigate('/signUp')
+        setEmailError('') 
         if (!/^(?=.*[A-Z]).{6,}$/.test(password)) {
             return setError('please provide  at last 6 character')
         }
@@ -226,7 +225,8 @@ const SignUp = () => {
                         </div>
                         <div className="form-control mt-6">
                             {
-                                btnLoading ? <span className="loading loading-bars loading-lg mx-auto"></span> : <button className="btn bg-gradient text-white">Sign Up</button>}
+                                btnLoading ? <span className="loading loading-bars loading-lg mx-auto"></span> : <button className="btn bg-gradient text-white">Sign Up</button>
+                                }
                         </div>
                     </form>
                     <div className="mx-auto mb-5 pb-5 text-center">

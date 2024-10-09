@@ -44,7 +44,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
         //* Send Refresh
         console.log('Sending refresh token');
     
-        const res = await fetch('http://localhost:5000/api/v1/auth/refresh-token', {
+        const res = await fetch('http://localhost:8000/api/auth/refresh-token', {
           method: 'POST',
           credentials: 'include',
         });
@@ -73,7 +73,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithRefreshToken,
-    endpoints: () => ({})
+    endpoints: () => ({}),
+    tagTypes: ['allCars']
 })
 
 

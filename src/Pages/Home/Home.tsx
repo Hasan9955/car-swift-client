@@ -1,8 +1,12 @@
+ import Banner from "./Banner";
+import ClientReview from "./ClientReview";
+
  
 const Home = () => {
     return (
         <div>
-            this is home
+            <Banner />
+            <ClientReview /> 
         </div>
     );
 };
