@@ -13,3 +13,16 @@ export interface TCar {
     pricePerHour: number;
     status: string;
 }
+
+export interface User {
+    _id: string;
+    address: string;
+    createdAt: string;
+    email: string;
+    isDeleted: boolean;
+    name: string;
+    phone: string;
+    photo: string;
+    role: string;
+    updatedAt: string; 
+}

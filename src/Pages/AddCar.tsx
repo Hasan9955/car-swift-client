@@ -33,6 +33,7 @@ const AddCar = () => {
         register,
         formState: { errors },
         handleSubmit,
+        reset
     } = useForm<FormData>();
 
     const handleAddCar: SubmitHandler<FormData> = async (data) => {
@@ -81,8 +82,8 @@ const AddCar = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                // reset()
-                // navigate('/admin-dashboard/manageCars')
+                reset()
+                navigate('/admin-dashboard/manageCars')
             }
         } catch (error) {
             console.log(error);
@@ -207,21 +208,11 @@ const AddCar = () => {
                                 </p>
                             )} */}
                         </div>
-
-
-
-
-
+                        
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Is Electric?</span>
-                            </label>
-                            {/* <input
-                                type="name"
-                                className="input input-bordered"
-                                placeholder="Enter Car Name"
-                                {...register("name", { required: true })}
-                            /> */}
+                            </label> 
                             <select className="select select-bordered w-full"
                                 {...register("isElectric", { required: true })}>
                                 <option> </option>
@@ -237,8 +228,7 @@ const AddCar = () => {
                                 </p>
                             )}
                         </div>
-
-
+                        
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Price Per Hour</span>

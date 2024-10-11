@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForgetPasswordMutation, useLoginMutation } from "../redux/features/auth/authApi";
 import { toast } from "react-toastify";
 import { verifyToken } from "../utils/verifyToken";
@@ -18,6 +18,7 @@ type FormData = {
 
 const Login = () => {
 
+    const location = useLocation();
     const [login] = useLoginMutation();
     const [forgetPassword] = useForgetPasswordMutation();
     const [error, setError] = useState('')
@@ -47,7 +48,7 @@ const Login = () => {
                 token: res.token
             }))
             toast.success('Login successfully!')
-            navigate('/')
+            navigate(location.state || '/')
         } catch (error: any) {
             setError("Password doesn't matched")
             toast.error(error.data.message || 'Something went wrong')

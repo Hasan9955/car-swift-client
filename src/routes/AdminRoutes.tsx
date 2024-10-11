@@ -4,7 +4,7 @@ import ManageAllUsers from "../Pages/Dashboard/Admin/ManageAllUsers";
 import ManageBookings from "../Pages/Dashboard/Admin/ManageBookings";
 import ManageCars from "../Pages/Dashboard/Admin/ManageCars";
 import ManageReturnCars from "../Pages/Dashboard/Admin/ManageReturnCars";
-import UpdateCar from "../Pages/UpdateCar";
+import UpdateCar from "../Pages/UpdateCar"; 
 
 
 export const AdminRoutes = [
@@ -14,7 +14,7 @@ export const AdminRoutes = [
     },
     {
         path: 'allUsers',
-        element: <ManageAllUsers />
+        element: <ManageAllUsers /> 
     },
     {
         path: 'manageCars',

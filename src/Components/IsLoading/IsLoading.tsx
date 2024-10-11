@@ -1,13 +1,13 @@
- 
- import './IsLoading.css'
-const IsLoading = () => {
+
+import './IsLoading.css'
+const IsLoading = ({ dashboard }: { dashboard: boolean }) => {
     return (
         <div className="flex justify-center items-center">
             <div>
                 <div className="animated-background">
                     <div className="background-masker btn-divide-left"></div>
                 </div>
-                <div className="grid mt-10 gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className={`grid mt-10 gap-5 grid-cols-1 md:grid-cols-2 ${dashboard ? 'lg:grid-cols-2 xl:grid-cols-3' : 'lg:grid-cols-3 xl:grid-cols-4'}`}>
                     <div className="css-dom"></div>
                     <div className="css-dom"></div>
                     <div className="css-dom"></div>

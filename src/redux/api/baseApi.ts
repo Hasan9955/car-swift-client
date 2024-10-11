@@ -36,12 +36,12 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     if (result?.error?.status === 404) {
         toast.error(result?.error?.data?.message || 'Something went wrong!');
+        api.dispatch(logout());
       }
       if (result?.error?.status === 403) {
         toast.error(result?.error?.data?.message || 'Something went wrong!');
       }
-      if (result?.error?.status === 401) {
-        //* Send Refresh
+      if (result?.error?.status === 401) { 
         console.log('Sending refresh token');
     
         const res = await fetch('http://localhost:8000/api/auth/refresh-token', {
@@ -74,7 +74,7 @@ export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithRefreshToken,
     endpoints: () => ({}),
-    tagTypes: ['allCars']
+    tagTypes: ['allCars', 'allUsers', 'allBookings']
 })
 
 

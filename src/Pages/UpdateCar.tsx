@@ -5,10 +5,9 @@ import { MdCancel } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetSingleCarQuery, useUpdateCarMutation } from "../redux/features/Cars/carsApi";
 import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import IsLoading from "../Components/IsLoading/IsLoading";
+import Swal from "sweetalert2"; 
 import IsError from "../Components/IsError";
-import { TCar } from "../Interface/Car";
+import { TCar } from "../Interface/Index";
 
 
 type FormData = {
@@ -35,7 +34,7 @@ const UpdateCar = () => {
 
 
     const location = useLocation();
-    const { data, isLoading, isError } = useGetSingleCarQuery(location.state, {
+    const { data, isError } = useGetSingleCarQuery(location.state, {
         refetchOnMountOrArgChange: true,
     });
 
@@ -78,11 +77,7 @@ const UpdateCar = () => {
             });
             setFeatures(carData?.features)
         }
-    }, [carData, reset]);
-
-    if (isLoading) {
-        return <IsLoading />;
-    }
+    }, [carData, reset]); 
 
     if (isError) {
         return <IsError />;
@@ -95,11 +90,11 @@ const UpdateCar = () => {
             color,
             description,
             pricePerHour
-         } = data;
-         
+        } = data;
+
         try {
             let photoValue = null
-            
+
             if (image.length > 0) {
                 const formData = new FormData();
                 formData.append('image', image[0]);
@@ -121,7 +116,7 @@ const UpdateCar = () => {
                 isElectric,
                 pricePerHour: parseInt(pricePerHour)
             }
-            
+
             const value = {
                 id: carData?._id,
                 data: updateData
@@ -139,7 +134,7 @@ const UpdateCar = () => {
                     title: "Car updated successfully!",
                     showConfirmButton: false,
                     timer: 1500
-                }); 
+                });
                 navigate('/admin-dashboard/manageCars')
             }
         } catch (error) {
@@ -151,14 +146,14 @@ const UpdateCar = () => {
     }
 
 
-    
+
     const addFeature = () => {
         if (newFeature.trim()) {
             setFeatures([...features, newFeature]);
-            setNewFeature('');  
+            setNewFeature('');
         }
     };
-    
+
     const removeFeature = (index: number) => {
         setFeatures(features.filter((_, i) => i !== index));
     };

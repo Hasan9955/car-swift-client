@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom"; 
-import { AiFillDelete, AiOutlineFileAdd } from "react-icons/ai"; 
+import { Link, useNavigate } from "react-router-dom";
+import { AiFillDelete, AiOutlineFileAdd } from "react-icons/ai";
 import { GrDocumentUpdate } from "react-icons/gr";
 import Swal from "sweetalert2";
 import { useDeleteCarMutation, useGetAllCarsQuery } from "../../../redux/features/Cars/carsApi";
-import { TCar } from "../../../Interface/Car";
+import { TCar } from "../../../Interface/Index";
 import IsLoading from "../../../Components/IsLoading/IsLoading";
 import IsError from "../../../Components/IsError";
 
@@ -16,16 +16,16 @@ const ManageCars = () => {
     const { data, isError, isLoading, refetch } = useGetAllCarsQuery(undefined)
     const [deleteProduct] = useDeleteCarMutation();
     console.log(data);
-    
+
     if (isLoading) {
-        return <IsLoading />
+        return <IsLoading dashboard={true} />
     }
 
     if (isError) {
         return <IsError />
     }
 
-    const handleDelete = (id: string) => { 
+    const handleDelete = (id: string) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -36,8 +36,8 @@ const ManageCars = () => {
             confirmButtonText: "Yes, delete it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await deleteProduct(id) 
-                if(res.data.success){
+                const res = await deleteProduct(id)
+                if (res.data.success) {
                     Swal.fire({
                         title: "Deleted!",
                         text: "Car has been deleted.",
@@ -47,7 +47,7 @@ const ManageCars = () => {
                 refetch();
             }
         });
-        
+
     }
 
     return (
@@ -69,15 +69,15 @@ const ManageCars = () => {
                                 <div className=" ">
                                     <div className="text-xl font-bold max-w-[250px]">{car.name}</div>
                                     <p>Color: {car.color}</p>
-                                    <p>Price P/H: {car.pricePerHour}</p> 
+                                    <p>Price P/H: {car.pricePerHour}</p>
                                 </div>
                             </div>
                             <div className="flex flex-col">
                                 <p className="text-lg font-bold text-blue-800">Price P/H: $ {car.pricePerHour}</p>
-                                <div className="flex items-center mt-2 gap-2"> 
+                                <div className="flex items-center mt-2 gap-2">
                                     <button onClick={() => navigate(`/admin-dashboard/updateCar`, {
                                         state: car._id
-                                    })} title="Update"  className="btn bg-green-500 text-white  text-xl"><GrDocumentUpdate /></button> 
+                                    })} title="Update" className="btn bg-green-500 text-white  text-xl"><GrDocumentUpdate /></button>
                                     <button title="Delete" onClick={() => handleDelete(car._id)} className="btn bg-red-500 text-white  text-xl"><AiFillDelete /></button>
                                 </div>
                             </div>
