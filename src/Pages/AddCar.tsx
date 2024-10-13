@@ -194,7 +194,7 @@ const AddCar = () => {
                             {/* Display list of features */}
                             <ul className="mt-2 list-disc list-inside">
                                 {features.map((feature, index) => (
-                                    <li key={index} className="flex justify-between items-center rounded-lg bg-gray-100 p-1 gap-2">
+                                    <li key={index} className="flex justify-between border items-center rounded-lg bg-gray-100 p-1 gap-2">
                                         {feature}
                                         <button type="button" className="text-red-400 font-extrabold border border-gray-500 p-1 rounded-lg" onClick={() => removeFeature(index)}>
                                             <MdCancel />

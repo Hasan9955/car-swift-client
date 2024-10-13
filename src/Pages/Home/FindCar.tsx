@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa6";
+import { BookingInfo } from "../AllCars";
 
 
 type FormData = {
@@ -8,8 +9,8 @@ type FormData = {
     endTime: string;
 }
 
-const FindCar = () => {
-
+const FindCar: React.FC<{ setBookingInfo: React.Dispatch<React.SetStateAction<BookingInfo | null>> }> = ({ setBookingInfo }) => {
+  
     const {
         register,
         formState: { errors },
@@ -19,8 +20,13 @@ const FindCar = () => {
     const handleFindCar: SubmitHandler<FormData> = (data) => {
 
         const { date, startTime, endTime } = data;
+        const bookingInfo = {
+            date,
+            startTime,
+            endTime
+        }
+        setBookingInfo(bookingInfo)
 
-        
     }
     return (
         <div className="my-10 max-w-2xl mx-auto px-2">

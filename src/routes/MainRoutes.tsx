@@ -11,12 +11,10 @@ import AboutUs from "../Pages/AboutUs";
 import AllCars from "../Pages/AllCars";
 import CarDetails from "../Pages/CarDetails";
 import DashboardLayout from "../Layout/DashboardLayout";
-import { AdminRoutes } from "./AdminRoutes";
-import PrivateRoute from "./privateRoute";
-import IsAdmin from "./IsAdmin";
-import BookingConfirmation from "../Pages/BookingConfirmation";
-import CreateBooking from "../Pages/CreateBooking";
-
+import { AdminRoutes } from "./AdminRoutes"; 
+import IsAdmin from "./IsAdmin"; 
+import CreateBooking from "../Pages/CreateBooking"; 
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -45,30 +43,12 @@ const router = createBrowserRouter([
           element: <AllCars />
         },
         {
-          path: "carDetails",
+          path: "carDetails/:id",
           element: <CarDetails />
         },
         {
           path: 'createBooking',
           element: <CreateBooking />
-        },
-        {
-          path: 'bookingConfirmation',
-          element: <BookingConfirmation 
-          pickupLocation="Auckland City"
-          pickupDate="12 Oct 2024"
-          pickupTime="10:00 AM"
-          dropoffLocation="Auckland Airport"
-          dropoffDate="15 Oct 2024"
-          dropoffTime="10:00 AM"
-          vehicleName="Mitsubishi ASX"
-          vehicleRate="$70/day × 3 days"
-          totalVehicleCost="$210"
-          insuranceCost="$105"
-          oneWayFee="$150"
-          roadCareCost="$6"
-          grandTotal="$471"
-        />
         }
       ]
     },

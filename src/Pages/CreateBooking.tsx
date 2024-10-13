@@ -1,197 +1,71 @@
-
-
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FaArrowRight } from "react-icons/fa6";
 import { Navigate, useLocation } from "react-router-dom";
+ 
 
-
-type FormData = {
-    date: string;
-    startTime: string;
-    endTime: string;
-}  
-
-const CreateBooking = () => {
-
-    const {
-        register,
-        formState: { errors },
-        handleSubmit
-    } = useForm<FormData>();
+const CreateBooking = () => { 
 
     const location = useLocation();
-    const carData = location.state();
-    if(!carData){
+    const carData = location?.state?.bookingInfo;
+   
+    
+    if (!carData) {
         return <Navigate to={'/cars'} />
     }
-    console.log(carData);
-    const handleFindCar: SubmitHandler<FormData> = (data) => {
 
-        const { date, startTime, endTime } = data;
+    const car = carData?.car;
+    const user = carData?.user;
 
-        
-    }
 
     return (
-        <div className="my-10 max-w-2xl mx-auto px-2">
-            <form
-                onSubmit={handleSubmit(handleFindCar)}
-                className="flex flex-col justify-center items-center">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Date</span>
-                        </label>
-                        <input
-                            type="date"
-                            className="input input-bordered"
-                            placeholder="Enter date"
-                            {...register("date", { required: true })}
-                        />
-                        {errors.date?.type === "required" && (
-                            <p
-                                className="text-red-400 font-bold text-center mt-1"
-                                role="alert"
-                            >
-                                * Date is required
-                            </p>
-                        )}
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Start Time</span>
-                        </label>
-                        <select className="select select-bordered max-h-40 overflow-x-auto"
-                            {...register("startTime", { required: true })}>
-                            <option value='24:00'>12:00 AM</option>
-                            <option value='24:30'>12:30 AM</option>
-                            <option value='01:00'>01:00 AM</option>
-                            <option value='01:30'>01:30 AM</option>
-                            <option value='02:00'>02:00 AM</option>
-                            <option value='02:30'>02:30 AM</option>
-                            <option value='03:00'>03:00 AM</option>
-                            <option value='03:30'>03:30 AM</option>
-                            <option value='04:00'>04:00 AM</option>
-                            <option value='04:30'>04:30 AM</option>
-                            <option value='05:00'>05:00 AM</option>
-                            <option value='05:30'>05:30 AM</option>
-                            <option value='06:00'>06:00 AM</option>
-                            <option value='06:30'>06:30 AM</option>
-                            <option value='07:00'>07:00 AM</option>
-                            <option value='07:30'>07:30 AM</option>
-                            <option value='08:00'>08:00 AM</option>
-                            <option value='08:30'>08:30 AM</option>
-                            <option value='09:00'>09:00 AM</option>
-                            <option value='09:30'>09:30 AM</option>
-                            <option selected value='10:00'>10:00 AM</option>
-                            <option value='10:30'>10:30 AM</option>
-                            <option value='11:00'>11:00 AM</option>
-                            <option value='11:30'>11:30 AM</option>
-                            <option value='12:00'>12:00 PM</option>
-                            <option value='12:30'>12:30 PM</option>
-                            <option value='13:00'>01:00 PM</option>
-                            <option value='13:30'>01:30 PM</option>
-                            <option value='14:00'>02:00 PM</option>
-                            <option value='14:30'>02:30 PM</option>
-                            <option value='15:00'>03:00 PM</option>
-                            <option value='15:30'>03:30 PM</option>
-                            <option value='16:00'>04:00 PM</option>
-                            <option value='16:30'>04:30 PM</option>
-                            <option value='17:00'>05:00 PM</option>
-                            <option value='17:30'>05:30 PM</option>
-                            <option value='18:00'>06:00 PM</option>
-                            <option value='18:30'>06:30 PM</option>
-                            <option value='19:00'>07:00 PM</option>
-                            <option value='19:30'>07:30 PM</option>
-                            <option value='20:00'>08:00 PM</option>
-                            <option value='20:30'>08:30 PM</option>
-                            <option value='21:00'>09:00 PM</option>
-                            <option value='21:30'>09:30 PM</option>
-                            <option value='22:00'>10:00 PM</option>
-                            <option value='22:30'>10:30 PM</option>
-                            <option value='23:00'>11:00 PM</option>
-                            <option value='23:30'>11:30 PM</option>
-                        </select >
-                        {errors.startTime?.type === "required" && (
-                            <p
-                                className="text-red-400 font-bold text-center mt-1"
-                                role="alert"
-                            >
-                                * Select an option!
-                            </p>
-                        )}
-                    </div>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">End Time</span>
-                        </label>
-                        <select className="select select-bordered max-h-40 overflow-y-auto"
-                            {...register("endTime", { required: true })}>
-                            <option value='24:00'>12:00 AM</option>
-                            <option value='24:30'>12:30 AM</option>
-                            <option value='01:00'>01:00 AM</option>
-                            <option value='01:30'>01:30 AM</option>
-                            <option value='02:00'>02:00 AM</option>
-                            <option value='02:30'>02:30 AM</option>
-                            <option value='03:00'>03:00 AM</option>
-                            <option value='03:30'>03:30 AM</option>
-                            <option value='04:00'>04:00 AM</option>
-                            <option value='04:30'>04:30 AM</option>
-                            <option value='05:00'>05:00 AM</option>
-                            <option value='05:30'>05:30 AM</option>
-                            <option value='06:00'>06:00 AM</option>
-                            <option value='06:30'>06:30 AM</option>
-                            <option value='07:00'>07:00 AM</option>
-                            <option value='07:30'>07:30 AM</option>
-                            <option value='08:00'>08:00 AM</option>
-                            <option value='08:30'>08:30 AM</option>
-                            <option value='09:00'>09:00 AM</option>
-                            <option value='09:30'>09:30 AM</option>
-                            <option value='10:00'>10:00 AM</option>
-                            <option value='10:30'>10:30 AM</option>
-                            <option value='11:00'>11:00 AM</option>
-                            <option value='11:30'>11:30 AM</option>
-                            <option value='12:00'>12:00 PM</option>
-                            <option value='12:30'>12:30 PM</option>
-                            <option value='13:00'>01:00 PM</option>
-                            <option value='13:30'>01:30 PM</option>
-                            <option value='14:00'>02:00 PM</option>
-                            <option value='14:30'>02:30 PM</option>
-                            <option value='15:00'>03:00 PM</option>
-                            <option value='15:30'>03:30 PM</option>
-                            <option value='16:00'>04:00 PM</option>
-                            <option value='16:30'>04:30 PM</option>
-                            <option selected value='17:00'>05:00 PM</option>
-                            <option value='17:30'>05:30 PM</option>
-                            <option value='18:00'>06:00 PM</option>
-                            <option value='18:30'>06:30 PM</option>
-                            <option value='19:00'>07:00 PM</option>
-                            <option value='19:30'>07:30 PM</option>
-                            <option value='20:00'>08:00 PM</option>
-                            <option value='20:30'>08:30 PM</option>
-                            <option value='21:00'>09:00 PM</option>
-                            <option value='21:30'>09:30 PM</option>
-                            <option value='22:00'>10:00 PM</option>
-                            <option value='22:30'>10:30 PM</option>
-                            <option value='23:00'>11:00 PM</option>
-                            <option value='23:30'>11:30 PM</option>
-                        </select >
-                        {errors.endTime?.type === "required" && (
-                            <p
-                                className="text-red-400 font-bold text-center mt-1"
-                                role="alert"
-                            >
-                                * Select an option!
-                            </p>
-                        )}
+        <>
+            <div className="bg-white shadow-lg rounded-lg p-6 max-w-sm mx-auto">
+                <h2 className="text-lg font-semibold mb-4">Booking Summary</h2>
+    
+                <div className="flex justify-between mb-2">
+                    <div>
+                        <h3 className="font-semibold">Pick-up</h3>
+                        <p className="text-pink-600">{carData?.pickUp}</p>
+                        <p className="text-sm text-gray-500">{carData?.dropOff}</p>
+                        <p className="text-sm text-gray-500"> </p>
                     </div>
                 </div>
-                <div className="form-control mt-6">
-                    <button type="submit" className="btn bg-gradient rounded-full text-white">Find Car <FaArrowRight /></button>
+    
+                <div className="border-t mt-4 pt-4">
+                    <div className="flex items-center mb-2">
+                        <img className="w-16 h-16 rounded-lg mr-3 object-cover" src={car?.photo} alt="car image" />
+                        <div>
+                            <p className="font-semibold">{user.name}</p>
+                            <p className="text-sm text-gray-500">{car?.pricePerHour}</p>
+                            <p className="text-red-500 font-semibold">Total: </p>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
+    
+                <div className="border-t mt-4 pt-4">
+                    <div className="flex justify-between text-sm">
+                        <p>Peace of mind Insurance</p>
+                        <p className="text-red-500">{car?.pricePerHour}</p>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                        <p>Total Road Care
+                            <span className="tooltip" data-tip="Includes road assistance">
+                                <i className="fas fa-question-circle"></i>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+    
+                <div className="border-t mt-4 pt-4">
+                    <div className="flex justify-between text-lg font-bold">
+                        <p>Grand Total</p>
+                        <p className="text-red-500">Total: </p>
+                    </div>
+                </div>
+    
+            </div>
+        </>
     );
+
+
 };
 
 export default CreateBooking;

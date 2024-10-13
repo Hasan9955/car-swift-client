@@ -12,7 +12,7 @@ import { logout, setUser } from '../features/auth/authSlice';
 import { toast } from 'react-toastify';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api',
+    baseUrl: 'https://car-rental-server-eight.vercel.app/api',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token
@@ -32,8 +32,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
     let result: any = await baseQuery(args, api, extraOptions)
-
-
+ 
     if (result?.error?.status === 404) {
         toast.error(result?.error?.data?.message || 'Something went wrong!');
         api.dispatch(logout());
@@ -41,16 +40,14 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       if (result?.error?.status === 403) {
         toast.error(result?.error?.data?.message || 'Something went wrong!');
       }
-      if (result?.error?.status === 401) { 
-        console.log('Sending refresh token');
+      if (result?.error?.status === 401 || result?.error?.status === 400) {  
     
-        const res = await fetch('http://localhost:8000/api/auth/refresh-token', {
+        const res = await fetch('https://car-rental-server-eight.vercel.app/api/auth/refresh-token', {
           method: 'POST',
           credentials: 'include',
         });
     
-        const data = await res.json();
-    
+        const data = await res.json(); 
         if (data?.data?.accessToken) {
           const user = (api.getState() as RootState).auth.user;
     

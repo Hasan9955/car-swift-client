@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { FaHome, FaList, FaUsers, FaBox, FaParachuteBox } from "react-icons/fa";
-import { MdCarRental, MdDeliveryDining } from "react-icons/md";
+import { MdCarRental } from "react-icons/md";
 import logo from '../assets/carswift.png'
 import { navStyle } from "./Navbar";
 
