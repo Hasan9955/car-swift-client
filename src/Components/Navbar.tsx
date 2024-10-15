@@ -21,7 +21,7 @@ const Navbar = () => {
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/cars'>Cars</NavLink></li>
         <li><NavLink className={({ isActive }) =>
-            isActive ? "bg-gradient text-white" : ""} to={`/${user?.role}-dashboard/${user?.role}Profile`}>Dashboard</NavLink></li>
+            isActive ? "bg-gradient text-white" : ""} to={user?.role === "admin" ? `/admin-dashboard/adminProfile` : `/user-dashboard/userProfile`}>Dashboard</NavLink></li>
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/about'>About</NavLink></li>
     </>
@@ -67,7 +67,7 @@ const Navbar = () => {
                                     <div className='flex flex-col justify-center items-center mb-4'>
                                         <label tabIndex={0} className="btn btn-circle avatar">
                                             <div className="w-16 rounded-full">
-                                                <Link to={`/${user?.role}-dashboard/${user?.role}`}>
+                                                <Link to={user?.role === "admin" ? `/admin-dashboard/adminProfile` : `/user-dashboard/userProfile`}>
                                                     <img src={user.photo} alt='userImg' />
 
                                                 </Link>
@@ -77,7 +77,7 @@ const Navbar = () => {
                                         <h2>{user.userEmail}</h2>
 
                                     </div>
-                                    <li><NavLink to={`/${user?.role}-dashboard/${user?.role}`}>Dashboard</NavLink></li>
+                                    <li><NavLink to={user?.role === "admin" ? `/admin-dashboard/adminProfile` : `/user-dashboard/userProfile`}>Dashboard</NavLink></li>
                                     <li><button className='font-bold text-md text-blue-500' onClick={handleLogOut}>Logout <LuLogOut /></button></li>
                                 </ul>
                             </div>
