@@ -1,8 +1,12 @@
+import Contact from "./Home/Contact";
+import WhyChooseUs from "./Home/WhyChooseUs";
+
  
 const AboutUs = () => {
     return (
         <div>
-            this is about us page
+            <WhyChooseUs />
+            <Contact />
         </div>
     );
 };

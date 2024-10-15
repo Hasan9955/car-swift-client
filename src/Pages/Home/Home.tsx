@@ -1,6 +1,8 @@
-import Banner from "./Banner";
-import ClientReview from "./ClientReview";
+import Banner from "./Banner"; 
+import Contact from "./Contact";
 import FeaturedCars from "./FeaturedCars";
+import Testimonial from "./Testimonial";
+import WhyChooseUs from "./WhyChooseUs";
 
 
 const Home = () => {
@@ -8,7 +10,9 @@ const Home = () => {
         <div>
             <Banner />
             <FeaturedCars />
-            <ClientReview />
+            <WhyChooseUs />
+            <Testimonial />
+            <Contact />
         </div>
     );
 };
