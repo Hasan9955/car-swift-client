@@ -1,6 +1,6 @@
 
 import './IsLoading.css'
-const IsLoading = ({ dashboard }: { dashboard: boolean }) => {
+const IsLoading = ({ dashboard }: { dashboard?: boolean }) => {
     return (
         <div className="flex justify-center items-center">
             <div>

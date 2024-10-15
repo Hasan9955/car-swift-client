@@ -5,9 +5,8 @@ const carsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllCars: builder.query({
             query: (data) => ({
-                url: "/cars",
-                method: "GET",
-                body: data
+                url: `/cars?date=${data?.date}&startTime=${data?.time}`,
+                method: "GET"
             }),
             providesTags: ['allCars']
         }),

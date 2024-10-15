@@ -15,6 +15,8 @@ import { AdminRoutes } from "./AdminRoutes";
 import IsAdmin from "./IsAdmin"; 
 import CreateBooking from "../Pages/CreateBooking"; 
 import PrivateRoute from "./PrivateRoute";
+import Bookings from "../Pages/Bookings";
+import { UserRoutes } from "./UserRoutes";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +51,10 @@ const router = createBrowserRouter([
         {
           path: 'createBooking',
           element: <CreateBooking />
+        },
+        {
+          path: "bookings",
+          element: <Bookings />
         }
       ]
     },
@@ -56,6 +62,11 @@ const router = createBrowserRouter([
       path: '/admin-dashboard',
       element: <PrivateRoute><IsAdmin><DashboardLayout /></IsAdmin></PrivateRoute>,
       children: AdminRoutes
+    },
+    {
+      path: '/user-dashboard',
+      element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+      children: UserRoutes
     },
     {
       path: '/resetPassword',

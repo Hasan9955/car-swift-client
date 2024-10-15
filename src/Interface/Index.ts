@@ -26,3 +26,14 @@ export interface User {
     role: string;
     updatedAt: string; 
 }
+
+
+export interface TBookings {
+    _id: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    totalCost: number;
+    car: TCar;
+    user: User;
+}

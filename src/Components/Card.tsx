@@ -31,7 +31,7 @@ const Card = ({ car }: { car: TCar }) => {
                                 <span className="text-sm text-gray-500 ml-1">USD/hour</span>
                             </div>
                             <p className="text-gray-500 mb-4">Color: {car.color}</p>
-                            <p className="text-gray-500 mb-4">$198 Total</p>
+                            <p className="text-gray-500 mb-4">{car?.features[0].slice(0, 17)}...</p>
                         </div>
                         <BookingButton className={"btn rounded-full bg-gradient text-white"} carData={car} />
                     </div>

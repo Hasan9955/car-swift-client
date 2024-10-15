@@ -14,17 +14,17 @@ export const navStyle = ({ isActive }: { isActive: boolean }) =>
 
 const Navbar = () => {
 
+    const user = useAppSelector(selectCurrentUser);
+    const dispatch = useAppDispatch();
     const links = <>
         <li><NavLink className={navStyle} to='/'>Home</NavLink></li>
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/cars'>Cars</NavLink></li>
         <li><NavLink className={({ isActive }) =>
-            isActive ? "bg-gradient text-white" : ""} to='/cart'>Cart</NavLink></li>
+            isActive ? "bg-gradient text-white" : ""} to={`/${user?.role}-dashboard/${user?.role}Profile`}>Dashboard</NavLink></li>
         <li><NavLink className={({ isActive }) =>
             isActive ? "bg-gradient text-white" : ""} to='/about'>About</NavLink></li>
     </>
-    const user = useAppSelector(selectCurrentUser);
-    const dispatch = useAppDispatch();
     const handleLogOut = () => {
         dispatch(logout())
         toast.error('You are logged out!!!')
@@ -42,8 +42,8 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <Link className='flex gap-3 justify-center items-center' to='/'>
-                    <img className='md:w-24 w-16 h-10 md:h-12' src={logo} alt="logo" />
-                    <p className=' md:text-3xl xl:text-4xl font-bold uppercase'>C<span className='text-purple-500'>A</span>R S<span className='text-purple-500'>W</span>IFT</p>
+                    <img className='md:w-20 w-16 h-8' src={logo} alt="logo" />
+                    <p className=' md:text-2xl xl:text-3xl font-bold uppercase'>C<span className='text-purple-500'>A</span>R S<span className='text-purple-500'>W</span>IFT</p>
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
@@ -67,7 +67,7 @@ const Navbar = () => {
                                     <div className='flex flex-col justify-center items-center mb-4'>
                                         <label tabIndex={0} className="btn btn-circle avatar">
                                             <div className="w-16 rounded-full">
-                                                <Link to='/admin-dashboard/adminProfile'>
+                                                <Link to={`/${user?.role}-dashboard/${user?.role}`}>
                                                     <img src={user.photo} alt='userImg' />
 
                                                 </Link>
@@ -77,7 +77,7 @@ const Navbar = () => {
                                         <h2>{user.userEmail}</h2>
 
                                     </div>
-                                    <li><NavLink to='/admin-dashboard/adminProfile'>Dashboard</NavLink></li>
+                                    <li><NavLink to={`/${user?.role}-dashboard/${user?.role}`}>Dashboard</NavLink></li>
                                     <li><button className='font-bold text-md text-blue-500' onClick={handleLogOut}>Logout <LuLogOut /></button></li>
                                 </ul>
                             </div>
