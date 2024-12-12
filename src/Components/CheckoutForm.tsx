@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
@@ -52,7 +51,8 @@ const CheckoutForm = ({ price, id, status }: { price: number, id: string, status
       return
     }
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    // const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: 'card',
       card,
     });
