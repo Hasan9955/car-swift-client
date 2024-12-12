@@ -15,7 +15,7 @@ const ManageCars = () => {
     const navigate = useNavigate();
     const { data, isError, isLoading, refetch } = useGetAllCarsQuery(undefined)
     const [deleteProduct] = useDeleteCarMutation();
-    console.log(data);
+    // console.log(data);
 
     if (isLoading) {
         return <IsLoading dashboard={true} />
@@ -69,7 +69,7 @@ const ManageCars = () => {
                                 <div className=" ">
                                     <div className="text-xl font-bold max-w-[250px]">{car.name}</div>
                                     <p>Color: {car.color}</p>
-                                    <p>Price P/H: {car.pricePerHour}</p>
+                                    <p>Price P/H: ${car.pricePerHour}</p>
                                 </div>
                             </div>
                             <div className="flex flex-col">

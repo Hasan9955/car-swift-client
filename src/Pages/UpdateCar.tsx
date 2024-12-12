@@ -28,16 +28,16 @@ const UpdateCar = () => {
     const navigate = useNavigate();
     const [btnLoading, setBtnLoading] = useState(false);
     const [newFeature, setNewFeature] = useState<string>("");
-    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_API_KEY}`
     const [features, setFeatures] = useState<string[]>([]);
     const [carData, setCarData] = useState<TCar | null>(null);
-
-
+    
+    
     const location = useLocation();
     const { data, isError } = useGetSingleCarQuery(location.state, {
         refetchOnMountOrArgChange: true,
     });
-
+    
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOSTING_API_KEY}`
 
 
 
@@ -123,10 +123,10 @@ const UpdateCar = () => {
             }
 
             const res = await updateCar(value)
-            console.log(res);
+            // console.log(res);
 
             setBtnLoading(false)
-            console.log(res?.data?.success);
+            // console.log(res?.data?.success);
             if (res?.data?.success) {
                 Swal.fire({
                     position: "center",
@@ -137,8 +137,9 @@ const UpdateCar = () => {
                 });
                 navigate('/admin-dashboard/manageCars')
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setBtnLoading(false)
             toast.error('Something went wrong!')
         }

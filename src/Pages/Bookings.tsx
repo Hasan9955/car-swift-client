@@ -18,7 +18,7 @@ const Bookings = () => {
         refetchOnMountOrArgChange: true
     });
 
-    console.log(data);
+    // console.log(data);
 
     if (isLoading) {
         return <IsLoading />
@@ -55,7 +55,7 @@ const Bookings = () => {
                 }
             });
         } catch (error: any) {
-            console.log(error);
+            // console.log(error);
             toast.error(error?.data?.message || 'An error is going on!')
         }
 

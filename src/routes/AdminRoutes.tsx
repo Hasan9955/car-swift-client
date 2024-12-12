@@ -3,7 +3,7 @@ import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile";
 import ManageAllUsers from "../Pages/Dashboard/Admin/ManageAllUsers";
 import ManageBookings from "../Pages/Dashboard/Admin/ManageBookings";
 import ManageCars from "../Pages/Dashboard/Admin/ManageCars";
-import ManageReturnCars from "../Pages/Dashboard/Admin/ManageReturnCars";
+import ManageReturns from "../Pages/Dashboard/Admin/ManageReturns";
 import UpdateCar from "../Pages/UpdateCar"; 
 
 
@@ -33,7 +33,7 @@ export const AdminRoutes = [
         element: <UpdateCar />
     },
     {
-        path: 'manageReturnCar',
-        element: <ManageReturnCars />
+        path: 'allReturns',
+        element: <ManageReturns />
     }
 ]

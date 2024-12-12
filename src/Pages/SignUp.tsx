@@ -75,7 +75,7 @@ const SignUp = () => {
             toast.success('Sign up Successfully!!!')
             navigate("/")
         } catch (error: any) {
-            console.log(error);
+            // console.log(error);
             if(error?.data?.message?.includes('Duplicate value given!')){
                 setEmailError(error)
                 toast.error("This email is already registered!") 
@@ -195,7 +195,7 @@ const SignUp = () => {
                                 className="file-input file-input-bordered w-full"
                                 {...register("photo", { required: true })}
                             />
-                            {errors.phone?.type === "required" && (
+                            {errors.photo?.type === "required" && (
                                 <p
                                     className="text-red-400 font-bold text-center mt-1"
                                     role="alert"
@@ -219,7 +219,7 @@ const SignUp = () => {
                                     className="text-red-400 font-bold text-center mt-1"
                                     role="alert"
                                 >
-                                    * Address number is required
+                                    * Address is required
                                 </p>
                             )}
                         </div>

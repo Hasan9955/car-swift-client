@@ -1,17 +1,18 @@
-import { Link } from "react-router-dom";
-import { useDeleteBookingMutation, useGetMyBookingsQuery } from "../../../redux/features/bookings/bookingsApi";
-import { TBookings } from "../../../Interface/Index";
-import IsLoading from "../../../Components/IsLoading/IsLoading";
-import IsError from "../../../Components/IsError";
-import Swal from "sweetalert2";
 import { MdErrorOutline } from "react-icons/md";
+import IsError from "../../../Components/IsError";
+import IsLoading from "../../../Components/IsLoading/IsLoading";
+import { TBookings } from "../../../Interface/Index";
+import { useDeleteBookingMutation, useGetAllBookingsQuery } from "../../../redux/features/bookings/bookingsApi"; 
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import ReturnButton from "../../../Components/ReturnButton";
 
 
+const ManageReturns = () => {
 
-const MyBookings = () => {
-
-    const { data, isError, isLoading } = useGetMyBookingsQuery({query: "UNPAID-PAID"});
-
+    const { data, isError, isLoading } = useGetAllBookingsQuery({
+        status: "PENDING"
+    });
     const [deleteBooking] = useDeleteBookingMutation();
 
     if (isLoading) {
@@ -19,9 +20,9 @@ const MyBookings = () => {
     }
     if (isError) {
         return <IsError />
-    }
+    } 
 
-    const handleCancel = async (id: string) => {
+    const handelCancel = async (id: string) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -44,26 +45,28 @@ const MyBookings = () => {
         });
     }
 
-    const convertTo12Hour = (time24: string) => {
+    const convertTo12Hour = (time24: string) => { 
         const [hour, minute] = time24.split(':').map(Number);
-
+         
         const period = hour >= 12 ? 'PM' : 'AM';
-
-        const hour12 = hour % 12 || 12;
+         
+        const hour12 = hour % 12 || 12;  
         return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
     }
 
     const formateDate = (date: string) => {
-        const [year, month, day] = date.split('-').map(Number);
+        const [year, month,day] = date.split('-').map(Number);
 
         return `${day}-${month}-${year}`
     }
+
     return (
+
         <div>
             {
                 data?.data?.length > 0 ? <div>
                     <div className="flex flex-col justify-center items-center ">
-                        <p className="text-2xl lg:text-4xl my-5 text-center font-bold">Manage Your Bookings</p>
+                        <p className="text-2xl lg:text-4xl my-5 text-center font-bold">Manage All Bookings</p>
 
                     </div>
                     <div className="overflow-x-auto">
@@ -72,7 +75,7 @@ const MyBookings = () => {
                                 <tr>
                                     <th>User Info</th>
                                     <th>Booking Info</th>
-                                    <th>Status</th>
+                                    <th>Return Info</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -104,30 +107,28 @@ const MyBookings = () => {
 
                                         </td>
                                         <td>
-                                        <p
-    className={`badge badge-ghost badge-sm font-bold ${
-        {
-            'PENDING': 'text-purple-500',
-            'APPROVED': 'text-blue-500',
-            'UNPAID': 'text-red-500',
-            'PAID': 'text-green-500'
-        }[booking.status] || ''
-    }`}
->
-    {booking.status}
-</p>
- </td>
+                                            {
+                                                booking.totalCost > 0 ?
+                                                    <div>
+                                                        <p>Return Time: {convertTo12Hour(booking.endTime)}</p>
+                                                        <p>Total Cost: ${booking.totalCost}</p>
+                                                    <p className={`badge badge-ghost badge-sm font-bold ${ booking.status === 'PENDING' && 'text-purple-500'} ${ booking.status === 'APPROVED' && 'text-blue-500'} ${ booking.status === 'UNPAID' && 'text-red-500'} ${ booking.status === 'PAID' && 'text-green-500'}`}>{booking.status}</p>
+                                                    </div> :
+                                                    <div>
+                                                    <p className="text-sm opacity-50">NOT SET</p>
+                                                    <p className={`badge badge-ghost badge-sm font-bold ${ booking.status === 'PENDING' && 'text-purple-500'} ${ booking.status === 'APPROVED' && 'text-blue-500'} ${ booking.status === 'UNPAID' && 'text-red-500'} ${ booking.status === 'PAID' && 'text-green-500'}`}>{booking.status}</p>
+                                                    </div>
+                                            }
+                                        </td>
                                         <td>
-                                        <div title={booking.status !== 'PENDING' ? 'You cannot cancel booking in this status.' : ''}>
-    <button
-        onClick={() => handleCancel(booking._id)}
-        className="btn btn-sm btn-error text-white"
-        disabled={booking.status !== 'PENDING'}
-    >
-        <MdErrorOutline className="text-lg" /> Cancel
-    </button>
-</div>
-</td>
+                                            <div  className="flex justify-center items-center flex-col"> 
+                                            <ReturnButton bookingData={booking} className={`btn btn-sm text-white ${booking.endTime? 'btn-disabled' : 'bg-gradient'}`} /> 
+                                            <button onClick={() => handelCancel(booking._id)} className="mt-2 btn btn-sm btn-error text-white " disabled={booking.endTime ? true : false}>
+                                                <MdErrorOutline className="text-lg">
+                                                </MdErrorOutline> Cancel
+                                            </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>)
                             }
@@ -142,4 +143,4 @@ const MyBookings = () => {
     );
 };
 
-export default MyBookings;
+export default ManageReturns;

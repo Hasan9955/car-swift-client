@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
-import { useDeleteBookingMutation, useGetMyBookingsQuery } from "../../../redux/features/bookings/bookingsApi";
+import { Link, useNavigate } from "react-router-dom";
+import { useGetMyBookingsQuery } from "../../../redux/features/bookings/bookingsApi";
 import { TBookings } from "../../../Interface/Index";
 import IsLoading from "../../../Components/IsLoading/IsLoading";
-import IsError from "../../../Components/IsError";
-import Swal from "sweetalert2";
-import { MdErrorOutline } from "react-icons/md";
+import IsError from "../../../Components/IsError"; 
+import { MdPayments } from "react-icons/md";
 
 
 
-const MyBookings = () => {
+const MyPayments = () => {
 
-    const { data, isError, isLoading } = useGetMyBookingsQuery({query: "UNPAID-PAID"});
+    const { data, isError, isLoading } = useGetMyBookingsQuery({query: "PENDING-APPROVED"});
 
-    const [deleteBooking] = useDeleteBookingMutation();
+    const navigate = useNavigate();
 
     if (isLoading) {
         return <IsLoading dashboard={true} />
@@ -21,27 +20,9 @@ const MyBookings = () => {
         return <IsError />
     }
 
-    const handleCancel = async (id: string) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                const res = await deleteBooking(id);
-                if (res.data.success) {
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Booking deleted successfully.",
-                        icon: "success"
-                    });
-                }
-            }
-        });
+    const handlePay = async (payload: TBookings) => {
+        // console.log(payload);
+        navigate('/user-dashboard/pay', { state: payload });
     }
 
     const convertTo12Hour = (time24: string) => {
@@ -101,9 +82,10 @@ const MyBookings = () => {
                                             <p>Booking Date: {formateDate(booking.date)}</p>
                                             <p>Booking Time: {convertTo12Hour(booking.startTime)}</p>
                                             <p>Price P/H: ${booking.car.pricePerHour}</p>
-
-                                        </td>
+                                            </td>
                                         <td>
+                                        <p>Return Time: {convertTo12Hour(booking.endTime)}</p>
+                                        <p>Total Cost: ${booking.totalCost}</p>
                                         <p
     className={`badge badge-ghost badge-sm font-bold ${
         {
@@ -118,16 +100,16 @@ const MyBookings = () => {
 </p>
  </td>
                                         <td>
-                                        <div title={booking.status !== 'PENDING' ? 'You cannot cancel booking in this status.' : ''}>
-    <button
-        onClick={() => handleCancel(booking._id)}
-        className="btn btn-sm btn-error text-white"
-        disabled={booking.status !== 'PENDING'}
-    >
-        <MdErrorOutline className="text-lg" /> Cancel
-    </button>
-</div>
-</td>
+                                            {
+                                                booking.status === 'PAID' ? 
+                                                <p className="  text-green-500 font-bold text-lg">PAID</p>
+                                                : 
+                                                <button onClick={() => handlePay(booking)}
+                                                className="btn bg-gradient text-white">
+                                                <MdPayments className="text-lg" /> Pay
+                                            </button> 
+                                            }
+                                        </td>
                                     </tr>
                                 </tbody>)
                             }
@@ -142,4 +124,4 @@ const MyBookings = () => {
     );
 };
 
-export default MyBookings;
+export default MyPayments;

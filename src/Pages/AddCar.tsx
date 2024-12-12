@@ -67,13 +67,13 @@ const AddCar = () => {
                 isElectric,
                 pricePerHour: parseInt(pricePerHour)
             }
-            console.log(carData);
+            // console.log(carData);
 
             const res = await addCar(carData)
-            console.log(res);
+            // console.log(res);
 
             setBtnLoading(false)
-            console.log(res?.data?.success);
+            // console.log(res?.data?.success);
             if (res?.data?.success) {
                 Swal.fire({
                     position: "center",
@@ -85,8 +85,9 @@ const AddCar = () => {
                 reset()
                 navigate('/admin-dashboard/manageCars')
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setBtnLoading(false)
             toast.error('Something went wrong!')
         }

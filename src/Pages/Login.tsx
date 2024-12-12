@@ -101,16 +101,18 @@ const Login = () => {
                                 type="email"
                                 className="input input-bordered"
                                 placeholder="Enter your email"
-                                {...register("email", { required: true })}
+                                {...register('email', {
+                                    required: 'Email is required',
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: 'Invalid email address',
+                                    },
+                                })}
                             />
-                            {errors.email?.type === "required" && (
-                                <p
-                                    className="text-red-400 font-bold text-center mt-1"
-                                    role="alert"
-                                >
-                                    * Email is required
-                                </p>
-                            )}
+                            {
+                                errors.email && <p className="text-red-400 font-bold text-center mt-1"
+                                    role="alert">{errors.email.message}</p>
+                            }
                         </div>
                         <div className="form-control">
                             <label className="label">

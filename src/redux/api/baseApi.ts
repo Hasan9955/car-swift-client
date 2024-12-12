@@ -33,10 +33,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
     let result: any = await baseQuery(args, api, extraOptions)
  
-    if (result?.error?.status === 404) {
-        toast.error(result?.error?.data?.message || 'Something went wrong!');
-        api.dispatch(logout());
-      }
+    // if (result?.error?.status === 404) {
+    //     toast.error(result?.error?.data?.message || 'Something went wrong!');
+    //     api.dispatch(logout());
+    //   }
       if (result?.error?.status === 403) {
         toast.error(result?.error?.data?.message || 'Something went wrong!');
       }

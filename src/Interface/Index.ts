@@ -36,4 +36,5 @@ export interface TBookings {
     totalCost: number;
     car: TCar;
     user: User;
+    status: 'PENDING' | 'APPROVED' | 'UNPAID' | 'PAID';
 }

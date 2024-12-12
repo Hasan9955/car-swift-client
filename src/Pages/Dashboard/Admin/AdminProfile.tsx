@@ -1,9 +1,13 @@
+import UserProfile from "../User/UserProfile";
 
 
 const AdminProfile = () => {
     return (
         <div>
-            AdminProfile page
+            <UserProfile />
+            <div>
+                
+            </div>
         </div>
     );
 };
