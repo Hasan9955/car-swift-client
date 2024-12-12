@@ -8,8 +8,7 @@ import {
     fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { logout, setUser } from '../features/auth/authSlice';
-import { toast } from 'react-toastify';
+import { logout, setUser } from '../features/auth/authSlice'; 
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'https://car-rental-server-eight.vercel.app/api',
@@ -37,10 +36,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     //     toast.error(result?.error?.data?.message || 'Something went wrong!');
     //     api.dispatch(logout());
     //   }
-      if (result?.error?.status === 403) {
-        toast.error(result?.error?.data?.message || 'Something went wrong!');
-      }
-      if (result?.error?.status === 401 || result?.error?.status === 400) {  
+      // if (result?.error?.status === 403) {
+      //   // toast.error(result?.error?.data?.message || 'Something went wrong!');
+      // }
+      if (result?.error?.status === 401 || result?.error?.status === 400 || result?.error?.status === 403) {  
     
         const res = await fetch('https://car-rental-server-eight.vercel.app/api/auth/refresh-token', {
           method: 'POST',
@@ -60,6 +59,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     
           result = await baseQuery(args, api, extraOptions);
         } else {
+          console.log('log out because refresh token not working!', data);
           api.dispatch(logout());
         }
       }
