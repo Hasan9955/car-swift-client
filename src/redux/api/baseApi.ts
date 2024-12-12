@@ -39,7 +39,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       // if (result?.error?.status === 403) {
       //   // toast.error(result?.error?.data?.message || 'Something went wrong!');
       // }
-      if (result?.error?.status === 401 || result?.error?.status === 400 || result?.error?.status === 403) {  
+      // if (result?.error?.status === 401 || result?.error?.status === 400 || result?.error?.status === 403) {  
+      if (result?.error?.status === 401) {  
     
         const res = await fetch('https://car-rental-server-eight.vercel.app/api/auth/refresh-token', {
           method: 'POST',
